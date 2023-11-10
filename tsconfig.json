@@ -5,6 +5,7 @@
     "types": [
       "@types/node"
     ],
-      "baseUrl": "."
+      "baseUrl": ".",
+      "esModuleInterop": true
   }
 }
