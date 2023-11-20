@@ -39,7 +39,7 @@ export const App = ({backgroundImageSrc, renderedCb}: AppProps) => {
     return <> <GlobalStyles />
         <Wrapper>
         <Button id="copyBtn">Copy</Button>
-            <Iframe id="myGame" src="http://127.0.0.1:5500/index.html"></Iframe>
+            <Iframe id="myGame" src="https://sos7ya.itch.io/testderevnya"></Iframe>
             
             <BackgroundImage src={backgroundImageSrc}/>
             <Input id="copyInput"></Input>
