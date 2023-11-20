@@ -5,9 +5,9 @@ import {GlobalStyles} from "../styles/global";
 interface AppProps  { backgroundImageSrc: string, renderedCb: () => void };
 export const App = ({backgroundImageSrc, renderedCb}: AppProps) => {
     
-    function copyToClipboard(text: string) {
+   async function copyToClipboard(text: string) {
         const myGame = document.getElementsByTagName("iframe")[0];
-        navigator.clipboard.writeText(text).then(() => {
+        await navigator.clipboard.writeText(text).then(() => {
             myGame?.contentWindow?.postMessage("msgDone!", location.origin);
         })
     }
@@ -27,7 +27,7 @@ export const App = ({backgroundImageSrc, renderedCb}: AppProps) => {
                 copyBtn.style.display = "block";
                 copyBtn.style.opacity =  "20%";
                 console.log("copyBtn is here");
-                copyBtn.addEventListener("click", ()=> {copyToClipboard(copyInput?.getAttribute("value") || "")});
+                copyBtn.addEventListener("click", async ()=> { await copyToClipboard(copyInput?.getAttribute("value") || "")});
             }
             if(copyBtn && event.data === "closeButton"){
                 copyBtn.style.display = "none";
@@ -39,7 +39,7 @@ export const App = ({backgroundImageSrc, renderedCb}: AppProps) => {
     return <> <GlobalStyles />
         <Wrapper>
         <Button id="copyBtn">Copy</Button>
-            <Iframe id="myGame" src="https://sos7ya.itch.io/testderevnya"></Iframe>
+            <Iframe id="myGame" src="https://sos7ya.github.io/testBuild/"></Iframe>
             
             <BackgroundImage src={backgroundImageSrc}/>
             <Input id="copyInput"></Input>
