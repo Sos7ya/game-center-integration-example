@@ -15,21 +15,23 @@ const main = () => {
     const mount = () => {
 
         const mounted = () => {
-            const bgImage = GameCenterApi.getDynamicResourceAsset("backgroundImage", require("./../../assets/background.jpg"));
+            const bgImage = GameCenterApi.getDynamicResourceAsset("backgroundImage", require("./../../assets/background.png"));
 
             const cb = () => {
                 GameCenterApi.gameLoadedSdkCallback();
 
                 const config = GameCenterApi.gameLaunchConfig;
                 const userId = config.clientConfig.userId;
-                // console.log('userId', userId);
+                console.log('USER_ID', userId);
 
                 const myFrame = document.getElementsByTagName("iframe")[0];
                 const msg ={
                     userId: userId,
                     origin: location.origin
                 }
-                myFrame?.contentWindow?.postMessage(msg, "https://village.dodopizza.com/");
+                myFrame?.contentWindow?.postMessage(msg, msg.origin);
+
+                
             };
 
             const rootElement = document.getElementById("root");

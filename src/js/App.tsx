@@ -4,16 +4,47 @@ import {GlobalStyles} from "../styles/global";
 
 interface AppProps  { backgroundImageSrc: string, renderedCb: () => void };
 export const App = ({backgroundImageSrc, renderedCb}: AppProps) => {
+    
+    function copyToClipboard(text: string) {
+        const myGame = document.getElementsByTagName("iframe")[0];
+        navigator.clipboard.writeText(text).then(() => {
+            myGame?.contentWindow?.postMessage("msgDone!", location.origin);
+        })
+    }
+
     useEffect(() => {
         renderedCb();
+        const copyBtn = document.getElementById("copyBtn");
+        const copyInput = document.getElementById("copyInput");
+
+         //TODO Add value from UNITY
+
+        console.log("copyBtn is w8ing");
+        window.addEventListener("message", (event) => {
+
+            if(copyBtn && event.data?.type === "handleButton"){
+                copyInput?.setAttribute("value", event.data?.value);
+                copyBtn.style.display = "block";
+                copyBtn.style.opacity =  "20%";
+                console.log("copyBtn is here");
+                copyBtn.addEventListener("click", ()=> {copyToClipboard(copyInput?.getAttribute("value") || "")});
+            }
+            if(copyBtn && event.data === "closeButton"){
+                copyBtn.style.display = "none";
+                console.log("copyBtn is close");
+            }
+        })
     }, []);
 
-    return <><GlobalStyles />
+    return <> <GlobalStyles />
         <Wrapper>
-            <Iframe id="myGame" src="https://village.dodopizza.com/"></Iframe>
+        <Button id="copyBtn">Copy</Button>
+            <Iframe id="myGame" src="http://127.0.0.1:5500/index.html"></Iframe>
+            
             <BackgroundImage src={backgroundImageSrc}/>
+            <Input id="copyInput"></Input>
         </Wrapper>
-    </>;
+        </>
 };
 
 
@@ -50,6 +81,28 @@ const Iframe = styled.iframe`
     height: 100%;
     width: 100%;
     border: none;
+    display: block;
+`;
+
+const Input = styled.input`
+    margin: 0;
+    padding: 0;
+    display: none;
+    top: 0;
+`;
+
+const Button = styled.button`
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 5%;
+    bottom: 10%;
+    left: 0;
+    z-index: 100;
 `;
 
 
