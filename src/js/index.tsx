@@ -29,7 +29,7 @@ const main = () => {
                     userId: userId,
                     origin: location.origin
                 }
-                myFrame?.contentWindow?.postMessage(msg, msg.origin);
+                myFrame?.contentWindow?.postMessage(msg, "https://sos7ya.github.io/testBuild/");
 
                 
             };

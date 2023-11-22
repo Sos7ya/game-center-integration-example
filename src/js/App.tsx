@@ -4,15 +4,16 @@ import {GlobalStyles} from "../styles/global";
 
 interface AppProps  { backgroundImageSrc: string, renderedCb: () => void };
 export const App = ({backgroundImageSrc, renderedCb}: AppProps) => {
-    
-   async function copyToClipboard(text: string) {
-        const myGame = document.getElementsByTagName("iframe")[0];
-        await navigator.clipboard.writeText(text).then(() => {
-            myGame?.contentWindow?.postMessage("msgDone!", location.origin);
-        })
-    }
 
     useEffect(() => {
+        const myGame = document.getElementsByTagName("iframe")[0];
+        function copyToClipboard(text: string) {
+            navigator.clipboard.writeText(text).then(() => {
+                myGame?.contentWindow?.postMessage("msgDone!", "https://sos7ya.github.io/testBuild/");
+                console.log("COPIED");
+            })
+        }
+
         renderedCb();
         const copyBtn = document.getElementById("copyBtn");
         const copyInput = document.getElementById("copyInput");
@@ -21,13 +22,13 @@ export const App = ({backgroundImageSrc, renderedCb}: AppProps) => {
 
         console.log("copyBtn is w8ing");
         window.addEventListener("message", (event) => {
-
-            if(copyBtn && event.data?.type === "handleButton"){
-                copyInput?.setAttribute("value", event.data?.value);
+            if(copyInput && copyBtn && event.data?.type === "handleButton"){
+                copyInput.setAttribute("value", event.data?.value);
                 copyBtn.style.display = "block";
-                copyBtn.style.opacity =  "20%";
+                copyBtn.style.opacity =  "0%";
                 console.log("copyBtn is here");
-                copyBtn.addEventListener("click", async ()=> { await copyToClipboard(copyInput?.getAttribute("value") || "")});
+                const valueTxt = copyInput.getAttribute("value");
+                copyBtn.addEventListener("click", ()=> {copyToClipboard(valueTxt ? valueTxt : "ERROR");});
             }
             if(copyBtn && event.data === "closeButton"){
                 copyBtn.style.display = "none";
@@ -99,8 +100,8 @@ const Button = styled.button`
     display: none;
     position: absolute;
     width: 100%;
-    height: 5%;
-    bottom: 10%;
+    height: 20%;
+    bottom: 0;
     left: 0;
     z-index: 100;
 `;
