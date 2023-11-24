@@ -1,7 +1,7 @@
 {
-  "name": "integartion-example",
+  "name": "dodo-vilage",
   "version": "1.0.0",
-  "description": "Game center integration example game",
+  "description": "bridge for integtation game to inappstory",
   "private": true,
   "scripts": {
     "dev": "webpack serve -c config/webpack/dev.js --port 3000",
