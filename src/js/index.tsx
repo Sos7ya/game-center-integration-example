@@ -29,7 +29,7 @@ const main = () => {
                     userId: userId,
                     origin: location.origin
                 }
-                myFrame.onload = () => myFrame.contentWindow?.postMessage(msg, "https://sos7ya.github.io/testBuild/");
+                myFrame.onload = () => myFrame.contentWindow?.postMessage(msg, "https://village.dodopizza.com/");
 
                 
             };
@@ -186,5 +186,3 @@ type Placeholder = {
 };
 
 main();
-
-

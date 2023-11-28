@@ -9,7 +9,7 @@ export const App = ({backgroundImageSrc, renderedCb}: AppProps) => {
         const myGame = document.getElementsByTagName("iframe")[0];
         function copyToClipboard(text: string) {
             navigator.clipboard.writeText(text).then(() => {
-                myGame?.contentWindow?.postMessage("msgDone!", "https://sos7ya.github.io/testBuild/");
+                myGame?.contentWindow?.postMessage("msgDone!", "https://village.dodopizza.com/");
                 console.log("COPIED");
             })
         }
@@ -17,9 +17,7 @@ export const App = ({backgroundImageSrc, renderedCb}: AppProps) => {
         renderedCb();
         const copyBtn = document.getElementById("copyBtn");
         const copyInput = document.getElementById("copyInput");
-
          //TODO Add value from UNITY
-
         console.log("copyBtn is w8ing");
         window.addEventListener("message", (event) => {
             if(copyInput && copyBtn && event.data?.type === "handleButton"){
@@ -40,7 +38,7 @@ export const App = ({backgroundImageSrc, renderedCb}: AppProps) => {
     return <> <GlobalStyles />
         <Wrapper>
         <Button id="copyBtn">Copy</Button>
-            <Iframe id="myGame" src="https://sos7ya.github.io/testBuild/"></Iframe>
+            <Iframe id="myGame" src="https://village.dodopizza.com/"></Iframe>
             
             <BackgroundImage src={backgroundImageSrc}/>
             <Input id="copyInput"></Input>
