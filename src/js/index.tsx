@@ -29,7 +29,7 @@ const main = () => {
                     userId: userId,
                     origin: location.origin
                 }
-                myFrame.onload = () => myFrame.contentWindow?.postMessage(msg, "https://village.dodopizza.com/");
+                myFrame.onload = () => myFrame.contentWindow?.postMessage(msg, "*");
 
                 
             };
@@ -51,7 +51,7 @@ const main = () => {
 
     mount();
     // if dev only
-    if (process.env.NODE_ENV === "development") {
+    //if (process.env.NODE_ENV === "development") {
         window.onload = () => typeof window.initGame === "function" &&
             window.initGame({
                 "gameInstanceId": 35,
@@ -172,7 +172,7 @@ const main = () => {
             });
     }
 
-};
+//};
 
 enum PlaceholderType {
     TEXT = "text",

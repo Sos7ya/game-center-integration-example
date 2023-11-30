@@ -1,6 +1,6 @@
 {
-  "name": "dodo-vilage",
-  "version": "1.0.1",
+  "name": "dodo-village",
+  "version": "1.0.2",
   "description": "bridge for integtation game to inappstory",
   "private": true,
   "scripts": {

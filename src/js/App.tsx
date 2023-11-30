@@ -1,22 +1,26 @@
 import React, {useEffect } from "react";
 import styled from "styled-components";
 import {GlobalStyles} from "../styles/global";
+import GameCenterApi from "@inappstory/game-center-api";
 
 interface AppProps  { backgroundImageSrc: string, renderedCb: () => void };
 export const App = ({backgroundImageSrc, renderedCb}: AppProps) => {
+    const copyBtn = document.getElementById("copyBtn");
+    const copyInput = document.getElementById("copyInput");
+    const myGame = document.getElementsByTagName("iframe")[0];
+
+    const closeGameRider = () => GameCenterApi.closeGameReader();
 
     useEffect(() => {
-        const myGame = document.getElementsByTagName("iframe")[0];
         function copyToClipboard(text: string) {
             navigator.clipboard.writeText(text).then(() => {
-                myGame?.contentWindow?.postMessage("msgDone!", "https://village.dodopizza.com/");
+                myGame?.contentWindow?.postMessage("msgDone!", "*");
                 console.log("COPIED");
             })
         }
 
         renderedCb();
-        const copyBtn = document.getElementById("copyBtn");
-        const copyInput = document.getElementById("copyInput");
+        
          //TODO Add value from UNITY
         console.log("copyBtn is w8ing");
         window.addEventListener("message", (event) => {
@@ -31,6 +35,9 @@ export const App = ({backgroundImageSrc, renderedCb}: AppProps) => {
             if(copyBtn && event.data === "closeButton"){
                 copyBtn.style.display = "none";
                 console.log("copyBtn is close");
+            }
+            if(myGame && event.data === "closeGameRider"){
+                closeGameRider();
             }
         })
     }, []);
