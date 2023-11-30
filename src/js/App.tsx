@@ -9,6 +9,9 @@ export const App = ({backgroundImageSrc, renderedCb}: AppProps) => {
     const copyInput = document.getElementById("copyInput");
     const myGame = document.getElementsByTagName("iframe")[0];
 
+    const config = GameCenterApi.gameLaunchConfig;
+    const userId = config.clientConfig.userId;
+    const myURL = `https://village.dodopizza.com/#${userId}`;
     const closeGameRider = () => GameCenterApi.closeGameReader();
 
     useEffect(() => {
@@ -20,9 +23,9 @@ export const App = ({backgroundImageSrc, renderedCb}: AppProps) => {
         }
 
         renderedCb();
-        
          //TODO Add value from UNITY
         console.log("copyBtn is w8ing");
+        window.addEventListener("popstate", (event) => {closeGameRider();});
         window.addEventListener("message", (event) => {
             if(copyInput && copyBtn && event.data?.type === "handleButton"){
                 copyInput.setAttribute("value", event.data?.value);
@@ -36,17 +39,15 @@ export const App = ({backgroundImageSrc, renderedCb}: AppProps) => {
                 copyBtn.style.display = "none";
                 console.log("copyBtn is close");
             }
-            if(myGame && event.data === "closeGameRider"){
-                closeGameRider();
-            }
+            
+            
         })
     }, []);
 
     return <> <GlobalStyles />
         <Wrapper>
         <Button id="copyBtn">Copy</Button>
-            <Iframe id="myGame" src="https://village.dodopizza.com/"></Iframe>
-            
+            <Iframe id="myGame" src={myURL}></Iframe>
             <BackgroundImage src={backgroundImageSrc}/>
             <Input id="copyInput"></Input>
         </Wrapper>
