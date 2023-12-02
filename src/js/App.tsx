@@ -131,7 +131,7 @@ const ExitButton = styled.button`
     @media (max-width: 1400px) {
         width: 6vw;
         height: 6vw;
-        top: 6%;
+        top: 8%;
         right: 6%;
     }
     `
