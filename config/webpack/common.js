@@ -89,16 +89,30 @@ module.exports = {
       },
       // static files
       {
-        test: /\.(jpe?g|png|gif|svg|eot|ttf|woff2?)$/i,
-        type: 'asset/resource',
-      },
+        test: /\.(jpe?g|png|gif|svg|jpg)$/i,
+        use: {
+           loader: 'file-loader',
+           options: {
+              name: '/[name].[ext]',
+              outputPath: 'img/',
+           },
+        },
+     },
         // inline font files (issue with styled components and react.portal)
         {
             test: /\.(eot|ttf|otf|woff2?)$/i,
+            use: {
+              loader: 'file-loader',
+              options: {
+                 name: 'src/resources/fonts/[name].[ext]',
+                 outputPath: 'dist/fonts/',
+              },
+           },
             type: "asset/inline",
         },
       {
         test: /\.svg/,
+        
         type: 'asset/inline'
       },
     ]

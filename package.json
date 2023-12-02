@@ -1,6 +1,6 @@
 {
   "name": "dodo-village",
-  "version": "1.0.2",
+  "version": "1.0.7",
   "description": "bridge for integtation game to inappstory",
   "private": true,
   "scripts": {
@@ -52,7 +52,7 @@
     "zip-webpack-plugin": "^4.0.1"
   },
   "dependencies": {
-    "@inappstory/game-center-api": "^1.0.0-rc.1",
+    "@inappstory/game-center-api": "^1.0.0-rc.14",
     "core-js": "^3.32.0",
     "normalize.css": "^8.0.1",
     "react": "^18.2.0",

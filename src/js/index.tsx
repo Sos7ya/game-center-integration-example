@@ -19,19 +19,6 @@ const main = () => {
 
             const cb = () => {
                 GameCenterApi.gameLoadedSdkCallback();
-
-                const config = GameCenterApi.gameLaunchConfig;
-                const userId = config.clientConfig.userId;
-                console.log('USER_ID', userId);
-
-                const myFrame = document.getElementsByTagName("iframe")[0];
-                const msg ={
-                    userId: userId,
-                    origin: location.origin
-                }
-                myFrame.onload = () => myFrame.contentWindow?.postMessage(msg, "*");
-
-                
             };
 
             const rootElement = document.getElementById("root");
@@ -51,7 +38,7 @@ const main = () => {
 
     mount();
     // if dev only
-    //if (process.env.NODE_ENV === "development") {
+  //  if (process.env.NODE_ENV === "development") {
         window.onload = () => typeof window.initGame === "function" &&
             window.initGame({
                 "gameInstanceId": 35,
@@ -166,7 +153,7 @@ const main = () => {
                     "sdkVersion": "1.16.0",
                     "sessionId": "A2glAAAAAAAAAQAAAKTI2WQCCQgAAAAamGs7wP4RcYiEwdMi19Z7aE68fT6QW5S18Oe812f6pw",
                     "userAgent": "InAppStorySDK/750 Dalvik/2.1.0 (Linux; U; Android 11; XQ-AT51 Build/58.1.A.5.530) Application/258 (com.inappstory.android 3.1.0)",
-                    "userId": "88005553535",
+                    "userId": "000aaa333121",
                 },
 
             });

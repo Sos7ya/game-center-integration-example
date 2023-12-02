@@ -1,60 +1,73 @@
-import React, {useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import {GlobalStyles} from "../styles/global";
+import { GlobalStyles } from "../styles/global";
 import GameCenterApi from "@inappstory/game-center-api";
+import MyIframe from "./myIframe";
+import ModalWindow from "./modal";
 
-interface AppProps  { backgroundImageSrc: string, renderedCb: () => void };
-export const App = ({backgroundImageSrc, renderedCb}: AppProps) => {
-    const copyBtn = document.getElementById("copyBtn");
-    const copyInput = document.getElementById("copyInput");
-    const myGame = document.getElementsByTagName("iframe")[0];
+interface AppProps { backgroundImageSrc: string, renderedCb: () => void };
 
-    const config = GameCenterApi.gameLaunchConfig;
-    const userId = config.clientConfig.userId;
-    const myURL = `https://village.dodopizza.com/#${userId}`;
-    const closeGameRider = () => GameCenterApi.closeGameReader();
+let stateOfModal = false;
+export const App = ({ backgroundImageSrc, renderedCb }: AppProps) => {
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
-        function copyToClipboard(text: string) {
-            navigator.clipboard.writeText(text).then(() => {
-                myGame?.contentWindow?.postMessage("msgDone!", "*");
-                console.log("COPIED");
-            })
-        }
+        const copyBtn = document.getElementById("copyBtn");
+        const copyInput = document.getElementById("copyInput");
+        const myGame = document.getElementById("myGame") as HTMLIFrameElement;
 
-        renderedCb();
-         //TODO Add value from UNITY
+    function copyToClipboard(text: string) {
+        navigator.clipboard.writeText(text).then(() => {
+            myGame?.contentWindow?.postMessage("msgDone!", "*");
+            console.log("COPIED");
+        })
+    }
+        //TODO Add value from UNITY
         console.log("copyBtn is w8ing");
-        window.addEventListener("popstate", (event) => {closeGameRider();});
+        console.log(copyBtn, copyInput, myGame);
         window.addEventListener("message", (event) => {
-            if(copyInput && copyBtn && event.data?.type === "handleButton"){
-                copyInput.setAttribute("value", event.data?.value);
-                copyBtn.style.display = "block";
-                copyBtn.style.opacity =  "0%";
-                console.log("copyBtn is here");
-                const valueTxt = copyInput.getAttribute("value");
-                copyBtn.addEventListener("click", ()=> {copyToClipboard(valueTxt ? valueTxt : "ERROR");});
+            console.log(event.data);
+            if (event.data?.type === "handleButton") {
+                copyInput!.setAttribute("value", event.data?.value);
+                copyBtn!.style.display = "block";
+                copyBtn!.style.opacity = "0%";
+                console.log("COPYBUTTON is here");
+                const valueTxt = copyInput!.getAttribute("value");
+                copyBtn!.addEventListener("click", () => { copyToClipboard(valueTxt ? valueTxt : "ERROR"); });
             }
-            if(copyBtn && event.data === "closeButton"){
-                copyBtn.style.display = "none";
+            if (event.data === "closeButton") {
+                copyBtn!.style.display = "none";
                 console.log("copyBtn is close");
             }
-            
-            
+            if(event.data === "closeGameRider"){
+                GameCenterApi.closeGameReader();
+            }
+            if(event.data.type === "openURL"){
+                const url = event.data?.url;
+                GameCenterApi.openUrl({url: url, closeGameReader: true});
+            }
         })
+
+        renderedCb();
     }, []);
 
     return <> <GlobalStyles />
         <Wrapper>
-        <Button id="copyBtn">Copy</Button>
-            <Iframe id="myGame" src={myURL}></Iframe>
-            <BackgroundImage src={backgroundImageSrc}/>
             <Input id="copyInput"></Input>
+            <Button id="copyBtn">Copy</Button>
+            <ExitButton id="exitBtn" onClick={() => setShowModal(!showModal) }><MyImage src="https://village.dodopizza.com/dodo-village/v1.0.5/bundle/img/Exit.png" alt="Exit"></MyImage></ExitButton>
+             <ModalWindow isVisible={showModal} close={() => setShowModal(false)} />
+            <MyIframe />
+            <BackgroundImage src={backgroundImageSrc} />
         </Wrapper>
-        </>
+    </>
 };
 
-
+const MyImage = styled.img`
+    background: none;
+    height: 100%;
+    width: 100%;
+`
 
 const Wrapper = styled.div`
     height: 100%;
@@ -79,18 +92,6 @@ const BackgroundImage = styled.img`
     z-index: -1;
 `;
 
-
-
-
-const Iframe = styled.iframe`
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    width: 100%;
-    border: none;
-    display: block;
-`;
-
 const Input = styled.input`
     margin: 0;
     padding: 0;
@@ -112,4 +113,25 @@ const Button = styled.button`
     z-index: 100;
 `;
 
+const ExitButton = styled.button`
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+    position: absolute;
+    z-index: 100;
+    top: 70px;
+    right: 70px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    width: 170px;
+    height: 170px;
 
+    @media (max-width: 1400px) {
+        width: 6vw;
+        height: 6vw;
+        top: 6%;
+        right: 6%;
+    }
+    `
