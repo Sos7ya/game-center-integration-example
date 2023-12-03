@@ -153,7 +153,7 @@ const main = () => {
                     "sdkVersion": "1.16.0",
                     "sessionId": "A2glAAAAAAAAAQAAAKTI2WQCCQgAAAAamGs7wP4RcYiEwdMi19Z7aE68fT6QW5S18Oe812f6pw",
                     "userAgent": "InAppStorySDK/750 Dalvik/2.1.0 (Linux; U; Android 11; XQ-AT51 Build/58.1.A.5.530) Application/258 (com.inappstory.android 3.1.0)",
-                    "userId": "000aaa333121",
+                    "userId": "",
                 },
 
             });
