@@ -16,6 +16,13 @@ export const App = ({ backgroundImageSrc, renderedCb }: AppProps) => {
         const copyInput = document.getElementById("copyInput");
         const myGame = document.getElementById("myGame") as HTMLIFrameElement;
 
+        myGame.addEventListener("blur", (event) => {
+            myGame?.contentWindow?.postMessage("onBlur", "*");
+        })
+        myGame.addEventListener("focus", (event) => {
+            myGame?.contentWindow?.postMessage("onFocus", "*");
+        })
+
     function copyToClipboard(text: string) {
         navigator.clipboard.writeText(text).then(() => {
             myGame?.contentWindow?.postMessage("msgDone!", "*");
@@ -30,7 +37,7 @@ export const App = ({ backgroundImageSrc, renderedCb }: AppProps) => {
             if (event.data?.type === "handleButton") {
                 copyInput!.setAttribute("value", event.data?.value);
                 copyBtn!.style.display = "block";
-                copyBtn!.style.opacity = "0%";
+                copyBtn!.style.opacity = "50%";
                 console.log("COPYBUTTON is here");
                 const valueTxt = copyInput!.getAttribute("value");
                 copyBtn!.addEventListener("click", () => { copyToClipboard(valueTxt ? valueTxt : "ERROR"); });
@@ -56,12 +63,27 @@ export const App = ({ backgroundImageSrc, renderedCb }: AppProps) => {
             <Input id="copyInput"></Input>
             <Button id="copyBtn">Copy</Button>
             <ExitButton id="exitBtn" onClick={() => setShowModal(!showModal) }><MyImage src="https://village.dodopizza.com/dodo-village/v1.0.5/bundle/img/Exit.png" alt="Exit"></MyImage></ExitButton>
-             <ModalWindow isVisible={showModal} close={() => setShowModal(false)} />
+            <ModalWindow isVisible={showModal} close={() => setShowModal(false)} />
             <MyIframe />
+            <PreloderFont>xxx<FontPreload>xxx</FontPreload></PreloderFont>
             <BackgroundImage src={backgroundImageSrc} />
         </Wrapper>
     </>
 };
+
+const FontPreload = styled.span`
+    font-family: "DodoRoundedBlack-Expanded";
+    opacity: 0%;
+    position: absolute;
+    top: -100px;
+`;
+
+const PreloderFont = styled.div`
+    font-family: "DodoRounded_v2-Bold";
+    opacity: 0%;
+    position: absolute;
+    top: -100px;
+`
 
 const MyImage = styled.img`
     background: none;
@@ -106,10 +128,10 @@ const Button = styled.button`
     outline: none;
     display: none;
     position: absolute;
-    width: 100%;
+    width: 25%;
     height: 20%;
-    bottom: 0;
-    left: 0;
+    bottom: 5%;
+    left: 40%;
     z-index: 100;
 `;
 
@@ -131,7 +153,7 @@ const ExitButton = styled.button`
     @media (max-width: 1400px) {
         width: 6vw;
         height: 6vw;
-        top: 8%;
+        top: 6%;
         right: 6%;
     }
     `

@@ -57,7 +57,7 @@ const Modaldiv = styled.div`
 `
 
 const Holder = styled.div`
-    padding: 40px;
+    padding: 20px;
     border: 1px solid #A89B85;
     border-radius: 94px;
     display: flex;
